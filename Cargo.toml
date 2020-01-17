@@ -1,0 +1,19 @@
+[package]
+name = "snowy_simple_logger"
+version = "0.1.1"
+authors = ["KrzysztofZawisla"]
+edition = "2018"
+readme = "README.md"
+
+[lib]
+name = "snowy_simple_logger"
+crate-type = ["cdylib"]
+
+
+[dependencies.pyo3]
+version = "0.8.5"
+features = ["extension-module"]
+
+[dependencies]
+chrono = "0.4.10"
+colorful = "0.2.1"
