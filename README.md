@@ -1,6 +1,6 @@
 # Snowy Simple Logger
 
-This is object oriented library created in Rust to logging data into stdout and files.
+Object oriented library created in Rust to logging data into stdout and files.
 
 ## Project structure
 
