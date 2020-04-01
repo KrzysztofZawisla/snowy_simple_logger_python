@@ -22,3 +22,5 @@ snowy_simple_logger
 ## Special cases
 
 When you pass to the `snowy_simple_logger.File(log_file_full_name: str)` constructor empty string, library will use as path to the log file `"log.log"` next to interpreted Python file.
+
+When you pass to the `snowy_simple_logger.path` setter empty string, library will use as path to the log file `"log.log"` next to interpreted Python file.
