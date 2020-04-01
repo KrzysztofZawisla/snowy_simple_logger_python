@@ -34,7 +34,7 @@ impl Console {
 
 #[pyclass]
 struct File {
-    path: String
+    path: String,
 }
 
 #[pymethods]
@@ -43,13 +43,9 @@ impl File {
     fn __new__(obj: &PyRawObject, file_path: Option<String>) {
         let true_path = match file_path {
             None => String::from("log.log"),
-            Some(x) => path_check(x)
+            Some(x) => x,
         };
-        obj.init({
-            File {
-                path: true_path
-            }
-        });
+        obj.init({ File { path: true_path } });
     }
     #[getter]
     fn get_path(&self) -> PyResult<&str> {
@@ -59,7 +55,7 @@ impl File {
     fn set_path(&mut self, file_path: Option<String>) -> PyResult<()> {
         let true_path = match file_path {
             None => String::from("log.log"),
-            Some(x) => path_check(x)
+            Some(x) => x,
         };
         self.path = true_path;
         Ok(())
@@ -85,7 +81,7 @@ impl File {
 fn console_output(message: String, log_type: &str) -> PyResult<()> {
     let now = chrono::Local::now();
     let now = now.format("[%Y-%m-%d %H:%M:%S%.3f] ").to_string();
-    let output = now+"["+log_type+"] "+&message;
+    let output = now + "[" + log_type + "] " + &message;
     if log_type == "info" {
         println!("{}", output.color(Color::Cyan));
     } else if log_type == "error" {
@@ -101,7 +97,7 @@ fn console_output(message: String, log_type: &str) -> PyResult<()> {
 fn file_output(message: String, log_type: &str, file_path: &str) -> () {
     let now = chrono::Local::now();
     let now = now.format("[%Y-%m-%d %H:%M:%S%.3f] ").to_string();
-    let output = now+"["+log_type+"] "+&message;
+    let output = now + "[" + log_type + "] " + &message;
     if !path::Path::new(&file_path).exists() {
         fs::File::create(&file_path).expect("Cannot create log file");
     }
@@ -110,21 +106,8 @@ fn file_output(message: String, log_type: &str, file_path: &str) -> () {
     if log_file_content != "" {
         new_line = "\n";
     }
-    let log_file_content = log_file_content+new_line+&output;
+    let log_file_content = log_file_content + new_line + &output;
     fs::write(file_path, log_file_content).expect("Cannot write to log file");
-}
-
-fn path_check(content: String) -> String {
-    if content == "" {
-        return "log.log".to_string();
-    }
-    let splitted_content: Vec<&str> = content.split(".").collect();
-    if splitted_content.len() <= 1 {
-        let fixed_content = splitted_content.into_iter().map(|i| i.to_string()).collect::<String>();
-        let fixed_content = fixed_content+".log";
-        return fixed_content;
-    }
-    return content;
 }
 
 #[pymodule]
