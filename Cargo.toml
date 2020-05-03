@@ -10,7 +10,6 @@ repository = "https://github.com/KrzysztofZawisla/snowy_simple_logger_python"
 name = "snowy_simple_logger"
 crate-type = ["cdylib"]
 
-
 [dependencies.pyo3]
 version = "0.8.5"
 features = ["extension-module"]
